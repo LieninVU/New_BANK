@@ -5,6 +5,7 @@ using namespace std;
 
 Menu::Menu() {
 	if (!bills.is_work()) { cout << "txt bills file isn't open"; start = false; }
+	if (bills.is_empty()) { cout << "You are't any BILL"; create_bill(); }
 	while (start) {
 		system("cls");
 		cout << ">BILLS<";
@@ -77,8 +78,9 @@ void Menu::bills_menu() {
 	int size = cards.size();
 	while (exit) {
 		system("cls");
-		for (int i = 0; i < size; i++) {
-			cout << i << ". " << cards[i];
+		for (int i = 0; i <= size; i++) {
+			if(i < size)cout << i << ". " << cards[i];
+			if (i == size) { cout << "\n" << "+CREATE NEW BILL+";  }
 			if (position == i) { cout << "< " << position; }
 			cout << endl;
 		}
@@ -88,12 +90,26 @@ void Menu::bills_menu() {
 		{
 		case 72: position--; break;
 		case 80: position++; break;
-		case 13: ; break;
+		case 13: {
+			if (position == size) { create_bill(); }
+			break;
+		}
 		case 27: exit = false; break;
 		}
-		if (position > size-1) { position = size-1; }
+		if (position > size) { position = size; }
 		if (position < 0) { position = 0; }
 	}
 	cards.clear();
 	position = 0;
+}
+
+void Menu::create_bill() {
+	string name;
+	unsigned int money;
+	cout << "Write it down your bill's name:";
+	cin >> name;
+	cout << "Write it down how much money your bill has:";
+	cin >> money;
+	bills.create(name, money);
+
 }

@@ -14,13 +14,14 @@ class BILLS {
 	fstream bills;
 	string line = "";
 	string text = "";
-	vector <string> cards;
 	char sim;
 public:
 	BILLS();
 	bool is_work();
+	bool is_empty();
 	vector<string> show();
 	void change(unsigned int id, int money);
 	void remove(int id);
 	void create(string name, unsigned int money);
+
 };

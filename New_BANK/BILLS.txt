@@ -1,2 +1,7 @@
-bill1 = 2000
-bill2 = 2040
+xzxc = 324
+zzzz = 21012
+qqq = 33333
+rrrr44 = 4443
+adea = 100
+aa = 1
+xxxxxxxxxx = 23234234

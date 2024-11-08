@@ -18,6 +18,7 @@ class Menu {
 	int bills_menu();
 	void create_bill();
 	void change_menu();
+	void show_history();
 public:
 	Menu();
 

@@ -16,10 +16,14 @@ bool BILLS::is_work() {
 
 bool BILLS::is_empty() {
 	bills.open(bills_way);
-	bills.seekg(0, ios::end);
-	bool empty = bills.tellg() == 0;
-	bills.close();
-	return empty;
+	if (bills.tellg() == EOF) {
+		bills.close();
+		return true;
+	}
+	else {
+		bills.close();
+		return false;
+	}
 }
 
 
@@ -39,31 +43,19 @@ vector<string> BILLS::show() {
 
 void BILLS::create(string name, unsigned int money) {
 	bills.open(bills_way);
-	vector<string> lines;
-	while (getline(bills, line)) {
-		lines.push_back(line);
-		line = "";
+	if (bills.is_open())
+	{
+		bills.seekg(0, ios::end);
+		bills << "\n" << name << " = " << money;
 	}
+	else bills << name << " = " << money;
 	bills.close();
-
-	ofstream file;
-	file.open(bills_way);
-	file.close();
-	bills.open(bills_way);
-	for (string i : lines) { bills << i << "\n"; }
-	bills << name << " = " << money;
-	bills.close();
+	set_history(to_string(money), name, create_type);
 }
 
 void BILLS::change(unsigned int id, int money) {
 	id--;
-	bills.open(bills_way);
-	vector<string> lines;
-	while (getline(bills, line)) {
-		lines.push_back(line);
-		line = "";
-	}
-	bills.close();
+	vector<string> lines = show();
 	ofstream file;
 	file.open(bills_way);
 	file.close();
@@ -75,18 +67,17 @@ void BILLS::change(unsigned int id, int money) {
 	bills.open(bills_way);
 	for (string i : lines) { bills << i; if (i != lines[lines.size() - 1]) { bills << "\n"; } }
 	bills.close();
+	if (money > 0)set_history(to_string(money), lines[id], add_type);
+	if(money < 0)set_history(to_string(-money), lines[id], spend_type);
 }
 
 
 
 void BILLS::credit(unsigned int id, int money) {
-	string your_credit = "0";
+	string your_credit = to_string(get_credit());
 	ofstream file;
 	change(id, money);
 	id--;
-	bills.open(credit_way);
-	if (bills.peek() != EOF) { getline(bills, your_credit); }
-	bills.close();
 	file.open(credit_way);
 	file.close();
 	bills.open(credit_way);
@@ -96,6 +87,8 @@ void BILLS::credit(unsigned int id, int money) {
 		bills << (stoi(your_credit) + money); 
 	}
 	bills.close();
+	if (money > 0) set_history(to_string(static_cast<int>(money * 1.2)), your_credit, take_credit_type);
+	if(money < 0) set_history(to_string(-money), your_credit, reduce_credit_type);
 }
 
 int BILLS::get_credit() {
@@ -105,4 +98,30 @@ int BILLS::get_credit() {
 	getline(bills, line);
 	bills.close();
 	return stoi(line);
+}
+
+
+void BILLS::set_history(string money, string bill, string type) {
+	bills.open(history_way);
+	bills.seekg(0, ios::end);
+	if (type == create_type) bills << "you create the bill: " << bill << " = " << money << "\n";
+	else if (type == add_type) bills << "this bill: " << bill << " was grow to: " << money << "\n";
+	else if (type == spend_type) bills << "this bill: " << bill << " was reduce to: " << money << "\n";
+	else if (type == take_credit_type) bills << "your credit: " << bill << " was grow to: " << money << "\n";
+	else if (type == reduce_credit_type) bills << "this credit: " << bill << " was reduce to: " << money << "\n";
+
+	bills.close();
+
+
+}
+
+vector<string> BILLS::get_history() {
+	bills.open(history_way);
+	vector<string> history;
+	while (getline(bills, line)) {
+		history.push_back(line);
+		line = "";
+	}
+	bills.close();
+	return history;
 }

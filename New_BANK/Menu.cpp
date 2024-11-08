@@ -29,7 +29,7 @@ Menu::Menu() {
 		case 13: {
 			if (position == 0) { bills_menu(); }
 			if (position == 1) { change_menu(); }
-			if (position == 2) { system("cls"); cout << "THE HISTORY OF YOUR PURCHAS" << endl; cin >> trash_char; }
+			if (position == 2) { show_history(); }
 			if (position == 3) { credit_menu(); } 
 			break;
 		}
@@ -145,4 +145,17 @@ void Menu::change_menu() {
 	int money;
 	cin >> money;
 	bills.change(id, money);
+}
+
+void Menu::show_history() {
+	while (true)
+	{
+		system("cls"); cout << "THE HISTORY" << endl;
+		vector<string> arr = bills.get_history();
+		for (string i : arr) {
+			cout << i << endl;
+		}
+		key = _getch();
+		if (key == 27) return;
+	}
 }

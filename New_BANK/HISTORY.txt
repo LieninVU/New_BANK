@@ -1,0 +1,16 @@
+you create the bill: xzxc = 123
+you create the bill: zzzz = 22222
+this bill: xzxc = 223 was grow to: 100
+this bill: zzzz = 22122 was reduce to: -100
+this bill: zzzz = 21122 was reduce to: -1000
+this bill: xzxc = 224 was grow to: 1
+this bill: xzxc = 324 was grow to: 100
+your credit: 0 was grow to: 120.000000
+this bill: zzzz = 21012 was reduce to: 110
+this credit: 120 was reduce to: 110
+you create the bill: qqq = 33333you create the bill: rrrr44 = 4443
+you create the bill: adea = 99
+you create the bill: aa = 1
+this bill: adea = 200 was grow to: 101
+this bill: adea = 100 was reduce to: 100
+you create the bill: xxxxxxxxxx = 23234234

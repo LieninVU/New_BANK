@@ -15,6 +15,7 @@ class BILLS {
 	string spend_type = "spend";
 	string take_credit_type = "take_credit";
 	string reduce_credit_type = "reduce_credit";
+	string delete_type = "delete";
 	char trash_char;
 	string bills_way = "BILLS.txt";
 	string credit_way = "CREDIT.txt";
@@ -30,7 +31,7 @@ public:
 	bool is_empty();
 	vector<string> show();
 	void change(unsigned int id, int money);
-	void remove(int id); // осталось только это
+	void remove(unsigned int del_id, unsigned int where_id); // осталось только это
 	void create(string name, unsigned int money);
 	void credit(unsigned int id, int money);
 	int get_credit();

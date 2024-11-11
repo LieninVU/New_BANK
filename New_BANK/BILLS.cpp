@@ -103,13 +103,14 @@ int BILLS::get_credit() {
 
 void BILLS::set_history(string money, string bill, string type) {
 	bills.open(history_way);
-	bills.seekg(0, ios::end);
-	if (type == create_type) bills << "you create the bill: " << bill << " = " << money << "\n";
-	else if (type == add_type) bills << "this bill: " << bill << " was grow to: " << money << "\n";
-	else if (type == spend_type) bills << "this bill: " << bill << " was reduce to: " << money << "\n";
-	else if (type == take_credit_type) bills << "your credit: " << bill << " was grow to: " << money << "\n";
-	else if (type == reduce_credit_type) bills << "this credit: " << bill << " was reduce to: " << money << "\n";
-
+	bills.seekp(0, ios::end);
+	if (type == create_type) bills << "you create the bill: " << bill << " = " << money;
+	else if (type == add_type) bills << "this bill: " << bill << " was grow to: " << money;
+	else if (type == spend_type) bills << "this bill: " << bill << " was reduce to: " << money;
+	else if (type == take_credit_type) bills << "your credit: " << bill << " was grow to: " << money;
+	else if (type == reduce_credit_type) bills << "this credit: " << bill << " was reduce to: " << money;
+	else if (type == delete_type) bills << "this bill was deleted: " << bill;
+	bills << "\n";
 	bills.close();
 
 
@@ -124,4 +125,27 @@ vector<string> BILLS::get_history() {
 	}
 	bills.close();
 	return history;
+}
+
+
+void BILLS::remove(unsigned int del_id, unsigned int where_id) {
+	if (del_id == 0 || where_id == 0 || where_id == del_id)return;
+	del_id--;
+	int money;
+	vector<string> arr = show();
+	int index = arr[del_id].find(" = ");
+	money = stoi(arr[del_id].substr(index+3));
+	change(where_id, money);
+	set_history("", arr[del_id], delete_type);
+	arr = show();
+	arr.erase(arr.begin() + del_id);
+	ofstream file;
+	file.open(bills_way);
+	file.close();
+	bills.open(bills_way);
+	for (int i = 0; i < arr.size(); i++) {
+		bills << arr[i];
+		if (i != arr.size()-1) bills << "\n";
+	}
+	bills.close();
 }

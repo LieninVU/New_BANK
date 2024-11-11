@@ -20,6 +20,9 @@ Menu::Menu() {
 		cout << ">CREDIT<";
 		if (position == 3) { cout << "<"; }
 		cout << endl;
+		cout << ">REMOVE<";
+		if (position == 4) { cout << "<"; }
+		cout << endl;
 		key = _getch();
 		if (key == 224) { key = _getch(); }
 		switch (key)
@@ -31,10 +34,11 @@ Menu::Menu() {
 			if (position == 1) { change_menu(); }
 			if (position == 2) { show_history(); }
 			if (position == 3) { credit_menu(); } 
+			if (position == 4) { remove_menu(); }
 			break;
 		}
 		}
-		if (position > 3) { position = 3; }
+		if (position > 4) { position = 4; }
 		if (position < 0) { position = 0; }
 
 	}
@@ -100,6 +104,7 @@ int Menu::bills_menu() {
 			if (i == size) { cout << "\n" << "+CREATE NEW BILL+";  }
 			if (position == i) { cout << "< " << position; }
 			cout << endl;
+
 		}
 		key = _getch();
 		if (key == 224) { key = _getch(); }
@@ -114,7 +119,7 @@ int Menu::bills_menu() {
 		}
 		case 27: exit = false; break;
 		}
-		if (position > size) { position = size; }
+		if (position > size+1) { position = size+1; }
 		if (position < 0) { position = 0; }
 	}
 	cards.clear();
@@ -158,4 +163,17 @@ void Menu::show_history() {
 		key = _getch();
 		if (key == 27) return;
 	}
+}
+
+
+void Menu::remove_menu() {
+	system("cls");
+	cout << "SHOOCE WHAT BILL DO YOU WILL DELETE";
+	cin >> trash_char;
+	unsigned int del = bills_menu();
+	system("cls");
+	cout << "SHOOCE WHERE DO YOU TRANSFER MONEY";
+	cin >> trash_char;
+	unsigned int where = bills_menu();
+	bills.remove(del, where);
 }

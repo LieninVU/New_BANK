@@ -1,2 +1,6 @@
-this bill: adea = 101 was grow to: 1
-this bill was deleted: aa = 1
+you create the bill: diner = 1000
+you create the bill: dima = 10000
+this bill: diner = 0 was reduce to: 1000
+this bill: dima = 0 was reduce to: 10000
+this bill: diner = 1000000 was grow to: 1000000
+this bill: diner = 950000 was reduce to: 50000

@@ -1,6 +1,2 @@
-xzxc = 324
-zzzz = 21012
-qqq = 33333
-rrrr44 = 4443
-adea = 101
-xxxxxxxxxx = 23234234
+diner = 950000
+dima = 0
